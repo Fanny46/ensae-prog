@@ -1,6 +1,6 @@
 from graph import Graph, graph_from_file_route
 
-#Question 12
+#******************** Question 12 ********************
 class UnionFind:
     def __init__ (self, G = Graph()) :
         self.parent = {k : k for k in G.nodes} # le parent va permettre d'associer aux sommets d'un sous-ensemble un unique sommet qui sera leur "père" car on veut construire un arbre
@@ -49,7 +49,7 @@ def Kruskal(G) : # prend un graph G en entrée. Complexité en O(Elog(E))
     X = Graph(nodes)
     for u in G.nodes : # construction d'une liste contenant toutes les arêtes de G (arête = [power, u, v])
         for v in range(len(G.graph[u])) :
-            power, v = G.graph[u][v][1]
+            power = G.graph[u][v][1]
             v = G.graph[u][v][0]
             if [power, v, u] not in edges : # pour ne pas ajouter deux fois chaque arête
                 edges.append([power, u, v])
@@ -65,14 +65,13 @@ def Kruskal(G) : # prend un graph G en entrée. Complexité en O(Elog(E))
 
 
 
-#Question 14 : complexité en O(V)
+#******************** Question 14 ******************** 
+# Complexité en O(V)
 def path_spanning_tree (S, src, dest) : # prend un arbre couvrant en entrée
     """ Should return power_min, path """
-    print("go path")
     nodes_v = {node : False for node in S.nodes}  # dictionnaire qui permet de savoir si l'on est déjà passé par un sommet
     nodes_v [src] = True
     powers = [0]  # on crée une liste qui contient toutes les puissances, dont on gardera le max
-    print("go parcours")
     def parcours(node, path) :
         if node == dest:
             return max(powers), path
@@ -93,16 +92,20 @@ def path_spanning_tree (S, src, dest) : # prend un arbre couvrant en entrée
 
     return parcours(src, [src])
 
+#******************** Question 15 ********************
+def output_routes(num_fichier):
+    g = graph_from_file_route("input/routes."+str(num_fichier)+".in")
+    kruskal = Kruskal(g)
+    f = open("input/routes."+str(num_fichier)+".in", "r")
+    h = open("delivery_network/route."+str(num_fichier)+".out", "w")
+    nb_route = f.readline()
+    for i in range(int(nb_route) - 1):
+        line = f.readline().split()
+        src = int(line[0])
+        dest = int(line[1])
+        h.write(str(src)+" " + str(dest) + " "+ str(path_spanning_tree(kruskal, src, dest)[0]) + "\n")
+    f.close()
+    h.close()
 
-
-G = graph_from_file_route("input/routes.2.in")
-print(path_spanning_tree(Kruskal(G), 1, 5))
-
-
-            
-
-
-
-
-
-
+output_routes(1)
+#Le code a déjà été exécuté sur le fichier routes.1.in et peut etre consulté dans le delivery_network.

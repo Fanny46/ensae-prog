@@ -1,3 +1,8 @@
+#******************** Le numéro des questions est indiquées comme ici ********************
+#******************** Les références pour accéder à nos réponses du TD2 sont indiquées en bas de ce fichier ********************
+
+
+#******************** TP1 ********************
 class Graph:
     """
     A class representing graphs as adjacency lists and implementing various algorithms on the graphs. Graphs in the class are not oriented. 
@@ -39,11 +44,14 @@ class Graph:
             for source, destination in self.graph.items():
                 output += f"{source}-->{destination}\n"
         return output
-    
+
+
+            #******************** Question 1 (partie 1) ********************
+            #On implémente ici la fonction add_edge.
     def add_edge(self, node1, node2, power_min, dist=1):
         """
         Adds an edge to the graph. Graphs are not oriented, hence an edge is added to the adjacency list of both end nodes. 
-
+        Par défault, la distance est fixée à 1 si elle n'est pas donnée.
         Parameters: 
         -----------
         node1: NodeType
@@ -67,9 +75,21 @@ class Graph:
         self.graph[node2]=self.graph[node2]+[[node1, power_min, dist]]
         self.nb_edges+=1
 
+        #******************** Question 5 (bonus) ********************
+        # On implémente un Dijkstra pour avoir le plus court chemin.
+        # Complexité en O(V²)
+    def get_path_with_power(self, src, dest, power):
+        """Cette méthode permet de retourner le plus court chemin entre src et dest selon une puissance maximale (power).
+        Dans le cas où le chemin est infaisable avec power on retourne None.
 
-    def get_path_with_power(self, src, dest, power): #complexité en O(V²)
-        #Q5 : on implémente un Dijkstra
+        Args:
+            src (int): point de départ
+            dest (int): point d'arrivée
+            power (int): puissance maximale a ne pas dépasser
+
+        Returns:
+            Retourne une pharse dans laquelle est donnée le chemin et la distance associée.
+        """
         import math
         visited = {node : False for node in self.nodes} #dictionnaire qui permet de savoir si le noeud a déjà été visité ou non
         distance = {node : math.inf for node in self.nodes} #on donne +l'infini comme valeur de distance à la source pour tous les points
@@ -94,7 +114,20 @@ class Graph:
             else : return None # si min_dist n'a pas bougé, c'est que la source et la destination ne sont pas reliées
         return "path : " + str(path) + ", distance : " + str(distance[dest])
 
-        """ ************** Question 3  #complexité en O(V+E) ***************
+
+        #************** Question 3  #complexité en O(V+E) ***************
+    def get_path_with_power2(self, src, dest, power):
+        """Cette méthode permet de retourner un chemin entre src et dest selon une puissance maximale (power).
+        Dans le cas où le chemin est infaisable avec power on retourne None.
+
+        Args:
+            src (int): point de départ
+            dest (int): point d'arrivée
+            power (int): puissance maximale a ne pas dépasser
+
+        Returns:
+            Retourne une liste qui correspond au chemin.
+        """
         nodes_v={node : False for node in self.nodes} #dictionnaire qui permet de savoir si l'on est déjà passé par un point
         nodes_v[src] = True
         def parcours(node, chemin) :
@@ -113,9 +146,11 @@ class Graph:
                     return parcours(k, chemin)
             return None
 
-        return parcours(src, [src])"""
+        return parcours(src, [src])
 
 
+            #******************** Question 2 ********************
+            #On implémente ici la méthode connected_components et connected_components_set
 
     def connected_components(self): #complexité en O(V(V+E))
         l=[] #liste vide qui contiendra les listes de composants connectés
@@ -136,18 +171,26 @@ class Graph:
         return l
 
 
-
     def connected_components_set(self):
         """
         The result should be a set of frozensets (one per component), 
         For instance, for network01.in: {frozenset({1, 2, 3}), frozenset({4, 5, 6, 7})}
         """
         return set(map(frozenset, self.connected_components()))
-    
-    def min_power(self, src, dest): #complexité en O(log P + log((b-a)/0.1)), avec P la puissance nécessaire pour parcourir le trajet le + court
+
+
+
+        #*************** Question 6 ***************
+        # On implémente ici la méthode min_power.
+        # Complexité en O(log P + log((b-a)/0.1)), avec P la puissance nécessaire pour parcourir le trajet le + court    
+    def min_power(self, src, dest):
+        """Permet de donnée la puissance minimale possible pour un trajet entre src et dest.
+        Retourne None si le trajet est infaisable.
+
+        Args:
+            src (int): départ
+            dest (int): arrivée
         """
-        Should return path, min_power. 
-        """        
         a = 0
         b = 1
         def dicho(a, b) : # on raisonne par dichotomie pour approcher la puissance minimale nécessaire sur le trajet
@@ -163,6 +206,8 @@ class Graph:
             b = 2*b
         return dicho(a, b)
 
+            #******************** Question 1 (partie 2) & Question 4 ********************
+            #On implémente ici la fonction graph_from_file, avec la distance optionnelle (Q4).
 def graph_from_file(filename):
     """
     Reads a text file and returns the graph as an object of the Graph class.
@@ -198,6 +243,8 @@ def graph_from_file(filename):
                 raise Exception("Format incorrect")
     return g
 
+            #******************** Fin du TP1 ********************
+            # Ici on adapte la fonction graph_from_file pour les fichiers routes
 def graph_from_file_route(filename):
     """
     Reads a text file and returns the graph as an object of the Graph class, for files routes.
@@ -239,7 +286,21 @@ def graph_from_file_route(filename):
                 nodes.append(node2)
     return g
 
+#******************** Question 8 ********************
+# Merci de consulter les fichiers tests situés dans le menu "tests".
 
+
+
+#******************** TD2 ********************
+# Pour accéder à nos réponses du TD2, merci de regarder les programmes situés dans les fichiers suivants :
+    #Q10 : l'estimation du temps est dans le fichier main.py
+    #Q11 : non traitée
+    #Q12 : toutes les fonctions sont dans spanning_tree.py
+    #Q13 : les tests sont situés dans le dossier tests
+    #Q14 : spanning_tree.py
+    #Q15 : spanning_tree.py
+
+#mytests.py est un fichier dans lequel on réalise des tests pour régider les programmes.
 
 
 
