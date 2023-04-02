@@ -282,20 +282,30 @@ def graph_from_file_route(filename):
 
 
 
-def add_utility(num_file): #complexité en O(E²)
-    h = graph_from_file("input/network."+str(num_file)+".in")
-    for h_edge in h.edges:
-        node1, node2, utility = h_edge
-        g = graph_from_file_route("input/routes."+str(num_file)+".in")
-        for g_edge in g.edges :
-            nodeu, nodev, power_min = g_edge
-            if nodeu == node1 or nodeu == node2 :
-                if nodev == node2 or nodev == node1 :
-                    g_edge += [utility]
-    return g
+def add_utility(h, num_file): #complexité en O(E²)
+    """
+    Should return a graph in which each edge is composed of 4 values : node1, node2, the minimal power of the route, its utility
+    Args :
+            h : a graph from a route file (with or without Kruskal)
+            num_file : the num of the network file that will be associated to the graph h
+    Output : a graph
+    """
+    #h = graph_from_file_route("input/routes."+str(num_file)+".in")
+    g = graph_from_file("input/network."+str(num_file)+".in")
+    for g_edge in g.edges:
+        node1, node2, power_min = g_edge
+        for k in range(len(h.edges)) :
+            if len(h.edges[k]) == 3 :
+                nodeu, nodev, utility = h.edges[k]
+                if nodeu == node1 or nodeu == node2 :
+                    if nodev == node2 or nodev == node1 :
+                        h.edges[k].insert(2, power_min) # on insère la puissance minimale au sein de l'arête concernée
+                    else : h.edges[k].insert(2, 1)
+    return h
 
 
-
+g = add_utility(1)
+print(g.edges)
 #******************** Question 8 ********************
 # Merci de consulter les fichiers tests situés dans le menu "tests".
 

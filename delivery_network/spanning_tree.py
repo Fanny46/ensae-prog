@@ -56,7 +56,7 @@ def Kruskal(G) : # prend un graph G en entrée. Complexité en O(Elog(E))
             X.add_edge(u,v,power) # on ajoute l'arête (u,v) à l'arbre couvrant
             U.union(u,v) # on unit les sous-arbres des sommets u et v pour qu'ils aient la même racine (on crée un arbre, sans cycle)
     root = U.find(s_edges[0][0])
-    return [X, root]
+    return X, root
 
 
 
