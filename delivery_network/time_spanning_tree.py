@@ -1,5 +1,5 @@
 from graph import graph_from_file_route
-from spanning_tree import Kruskal, path_spanning_tree2
+from spanning_tree import Kruskal, path_spanning_tree3
 from time import perf_counter
 from random import choice
 
@@ -17,7 +17,7 @@ for n in range (1,10) : # on va chercher le temps total qu'il faut pour trouver 
         b=choice(list)
         time_begin=perf_counter()
 
-        path_spanning_tree2(X, a, b)
+        path_spanning_tree3(S, a, b)
 
         time_stop=perf_counter()
         time+=time_stop-time_begin
@@ -45,4 +45,11 @@ Pour calculer un trajet de routes.2.in il s'est écoulé en moyenne :  0.2760545
 Pour calculer l'ensemble des trajets de routes.2.in il faudra :  23160.42568757292 s., soit 386.00709479288196 min., soit 6.433451579881366 h.
 Pour calculer un trajet de routes.3.in il s'est écoulé en moyenne :  0.4216748250182718 secondes.
 Pour calculer l'ensemble des trajets de routes.3.in il faudra :  42164.95245287707 s., soit 702.7492075479512 min., soit 11.712486792465853 h.
+
+Avec la fonction path_spanning_tree3 :
+
+Pour calculer un trajet de routes.1.in il s'est écoulé en moyenne :  1.0262534487992525e-05 secondes.
+Pour calculer l'ensemble des trajets de routes.1.in il faudra :  0.00019498815527185798 s., soit 3.2498025878642997e-06 min., soit 5.416337646440499e-08 h.
+Pour calculer un trajet de routes.2.in il s'est écoulé en moyenne :  58.66408922499977 secondes.
+Pour calculer l'ensemble des trajets de routes.2.in il faudra :  4921799.757799031 s., soit 82029.99596331718 min., soit 1367.1665993886197 h.
 """
