@@ -42,7 +42,7 @@ def Kruskal(G) : # prend un graph G en entrée. Complexité en O(Elog(E))
     Args:
         G (Graph): Graph dont on veut obtenir l'arbre couvrant de poids minimal.
     Returns:
-        Graph : retourne l'arbre couvrant de poids minimal
+        Graph, root : retourne l'arbre couvrant de poids minimal et la racine de l'arbre (utile dans une autre fonction)
     """
     U = UnionFind(G)
     nodes = []
@@ -62,7 +62,9 @@ def Kruskal(G) : # prend un graph G en entrée. Complexité en O(Elog(E))
 
 #******************** Question 14 ******************** 
 # Complexité en O(V)
-def aux_parcours(S, node, path, src, dest, nodes_v, powers) : #fonction auxiliaire de path_spanning_tree qui renvoie le chemin allant d'une source à une destination et la puissance minimale pour couvrir le trajet
+def aux_parcours(S, node, path, src, dest, nodes_v, powers) :
+    """fonction auxiliaire de path_spanning_tree qui renvoie le chemin allant d'une source à une destination et la puissance minimale pour couvrir le trajet
+    """
     if node == dest:
         return max(powers), path
     for i in S.graph[node] :
@@ -89,16 +91,18 @@ def path_spanning_tree (S, src, dest) : # prend un arbre couvrant en entrée
     return aux_parcours(S, src, [src], src, dest, nodes_v, powers)
 
 
-#******************** Bonus question 16 ********************
+#******************** Autre méthode question 14 ********************
 def depth (S, root) :
-# fonction qui renvoie la profondeur (par rapport à la racine) à laquelle se situent tous les sommets d'un arbre couvrant et leur père (associé à la puissance du trajet pour y aller)
+    """fonction qui renvoie la profondeur (par rapport à la racine) à laquelle se situent tous les sommets d'un arbre couvrant et leur père (associé à la puissance du trajet pour y aller)
+    """
     parent = {k : [-1, -1 ]for k in S.nodes}
     depth = {k : 0 for k in S.nodes}
     parent[root] = [root, 0]
     return aux_depth(S, root, 1, parent, depth)
 
 def aux_depth(S, node, depth_node, parent, depth) : # complexité en O(V + E)
-# fonction récursive qui renvoie la profondeur (par rapport à la racine) à laquelle se situe un sommet d'un arbre couvrant et son parent (associé à la puissance du trajet jusqu'au parent)
+    """fonction récursive qui renvoie la profondeur (par rapport à la racine) à laquelle se situe un sommet d'un arbre couvrant et son parent (associé à la puissance du trajet jusqu'au parent)
+    """
     for edge in S.graph[node] :
         node_v = edge[0]
         power = edge[1]
@@ -109,8 +113,9 @@ def aux_depth(S, node, depth_node, parent, depth) : # complexité en O(V + E)
     return parent, depth
 
 #l'initialisation, en comptant Kruskal, a une complexité en O(Elog(E))
+
 def path_spanning_tree2 (X, src, dest) : # complexité sans tenir compte de l'initialisation : O(V)
-# Should return power_min, path
+    """Should return power_min, path"""
     S, root = X
     dico_parent, dico_depth = depth(S, root)
     path_src = [src]
