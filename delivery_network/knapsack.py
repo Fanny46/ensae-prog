@@ -1,6 +1,6 @@
-from graph import add_utility, graph_from_file, graph_from_file_route
+from graph import add_power, graph_from_file, graph_from_file_route
 from spanning_tree import Kruskal
-
+from math import inf
 # but : maximiser le profit = la somme des utilités 
 # contraintes : puissance camion doit être supérieure à la puissance min sur le trajet ; somme des coûts inférieure au budget, un camion n'effectue qu'un trajet
 
@@ -15,27 +15,50 @@ class Catalogue :
         self.cam = cam #puissance, que l'on suppose suffisante pour identifier un camion
         self.nb_cam = len(cam)
         self.cost = dict([(n, []) for n in cam]) #puissance et coût dans cet ordre
-        self.route = dict([(n, []) for n in cam]) # associe une route et son utilité à chaque camion
 
-    def max_utility(self, num_file) :
-        """méthode qui détermine pour chaque camion le trajet (faisable par ce camion) ayant la plus grande utilité. On complète ainsi le dictionnaire route
+    def min_cost(self, num_file) :
+        """méthode qui détermine pour chaque trajet le modèle de camion le moins cher capable d'effectuer le trajet
         Args : num_file : numéro du fichier route ou network
         Output : rien
         """
         f = graph_from_file_route("input/routes."+str(num_file)+".in")
-        K = Kruskal(f)
-        g = add_utility(K, num_file)
-        for cam in self.cam :
-            routes = []
-            for edge in g.edges :
-                node1, node2, power, utility = edge
-                if cam >= power
-                routes.append([node1, node2, utility])
-            self.route[cam] = max(routes, key=lambda x: x[2])
-        return None
+        #K = Kruskal(f) #on utilise un arbre couvrant
+        g = add_power(f, num_file)
+        for i in range(len(g.edges)) : 
+            power = g.edges[i][2]
+            min_cost = inf
+            for cam in self.cam :
+                cost = self.cost[cam]
+                if cam >= power and cost < min_cost :
+                    min_cost = cost
+                    min_cam = cam
+            g.edges[i] += [min_cam, min_cost] #on ajoute à l'arête le camion dont le coût est minimal ainsi que ce coût
+        return g.edges
 
-#a partir de là, les fonctions servent à un algo de programmation dynamique mais on voit que ça sera trop long même sur des petits fichiers à cause de la taille du budget
-    def value(self, n, B = 25*(10^9)) :
+
+def catalogue_from_file(filename) : 
+    """Completer le dictionnaire avec le fichier
+    Args:
+        filename (str): nom du fichier trucks
+    """
+    with open(filename, "r") as file :
+        n = int(file.readline())
+        c = Catalogue([])
+        c.nb_cam = n
+        for i in range(n):
+            cam, cost = list(map(int, file.readline().split()))
+            c.cam.append(cam)
+            c.cost[cam] = cost
+    return c
+
+
+f = catalogue_from_file("input/trucks.1.in")
+print(f.min_cost(1))
+
+
+
+#à partir de là, les fonctions servent à un algo de programmation dynamique mais on voit que ça sera trop long même sur des petits fichiers à cause de la taille du budget
+"""def value(self, n, B = 25*(10^9)) :
         value = {}
         for i in range (n) :
             for j in range (B) :
@@ -64,27 +87,4 @@ class Catalogue :
         if self.m[i, j] > self.m[i-1, j] :
             return {i} | self.knapsack(i-1, j-self.cost[i])
         else:
-            return self.knapsack(i-1, j)
-
-
-def catalogue_from_file(filename) : 
-    """Completer le dictionnaire avec le fichier
-    Args:
-        filename (str): nom du fichier trucks
-    """
-    with open(filename, "r") as file :
-        n = int(file.readline())
-        c = Catalogue(n)
-        for i in range(n):
-            cam, cost = list(map(int, file.readline().split()))
-            c.cam.append(cam)
-            c.nb_cam +=1
-            c.cost[cam] = cost
-
-
-cata = catalogue_from_file("input/trucks.0.in")
-n = cata.nb_cam
-B = 25*(10^9)
-cata.m(n, B)
-optimal_indices = cata.knapsack(n, B)
-print(optimal_indices)
+            return self.knapsack(i-1, j)"""

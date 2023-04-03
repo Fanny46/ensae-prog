@@ -282,7 +282,7 @@ def graph_from_file_route(filename):
 
 
 
-def add_utility(h, num_file): #complexité en O(E²)
+def add_power(h, num_file): #complexité en O(E²)
     """
     Should return a graph in which each edge is composed of 4 values : node1, node2, the minimal power of the route, its utility
     Args :
@@ -304,8 +304,6 @@ def add_utility(h, num_file): #complexité en O(E²)
     return h
 
 
-g = add_utility(1)
-print(g.edges)
 #******************** Question 8 ********************
 # Merci de consulter les fichiers tests situés dans le menu "tests".
 
