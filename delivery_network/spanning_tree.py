@@ -90,6 +90,22 @@ def path_spanning_tree (S, src, dest) : # prend un arbre couvrant en entrée
     
     return aux_parcours(S, src, [src], src, dest, nodes_v, powers)
 
+def path_spanning_tree3(S, src, dest) : # prend un arbre couvrant en entrée
+        """Should return power_min, path"""
+        visited = []
+        stack = [(src, [src], [])]
+        # Cette fois-ci on a dans la queue une liste pour les powers rencontrés
+        while stack:
+            (node, chemin, power) = stack.pop()
+            if node == dest:
+                return chemin, max(power)
+            if node not in visited:
+                visited.append(node)
+                # On parcourt tous les voisins
+                for ngb in S.graph[node]:
+                    a = (ngb[0], chemin + [ngb[0]], power + [ngb[1]])
+                    stack.append(a)
+        return None   
 
 #******************** Autre méthode question 14 ********************
 def depth (S, root) :
