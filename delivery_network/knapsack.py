@@ -71,22 +71,42 @@ class Catalogue :
         
 
     def rec_knapsack(self, B, routes, trucks, n) :
+        """ fonction auxiliaire de naive_knapsack, récursive afin d'explorer toutes les combinaisons de trajets possibles.
+            La fonction teste pour chaque route si le sac-à-dos obtenu en la choisissant apporte plus d'utilité que celui obtenu en ne la choisissant pas
+            Ainsi, on teste tous les sac-à-dos possibles en les comparant 2 à 2 et en gardant toujours le meilleur des 2 (tout en vérifiant à chaque fois si le budget n'est pas dépassé)
+        Args : 
+                B (float): budget
+                routes (liste de listes) : la liste à partir de laquelle on teste les trajets un par un (chaque sous-liste est du type [sommet1, sommet2, puissance, utilité, camion, coût])
+                trucks (liste de listes): la liste qui contient les trajets et camions retenus (chaque sous-liste est du type [camion --> (sommet1, sommet2)])
+                n (int) : nombre de trajets
+        Output :
+                val1 ou val2 (int) : l'utilité totale du sac-à-dos
+                trucks1 or trucks2 (liste de listes) : les trajets ajoutés dans le sac-à-dos (chaque sous-liste est du type [camion --> (sommet1, sommet2)]) """
+        
         if n == 0 or B <= 0 :     # si on est arrivé au dernier trajet ou si le budget a été dépassé, on n'ajoute aucun profit
             return 0, trucks
         if routes[n-1][5] > B :   # si le coût du trajet est supérieur au budget, on ne prend pas ce trajet et on analyse le trajet suivant
             return self.rec_knapsack(B, routes, trucks, n-1)
         else :                    # si le trajet entre dans le budget, on ne le prend que si le profit en le choisissant est supérieur au profit sans le choisir (ie si val1 > val2)
             node1, node2, _, utility, cam, cost = routes[n-1]
-            trucks1 = trucks.copy() + [[str(cam) + " --> " + str((node1, node2))]] #on ajoute un le trajet étudié à la liste
+            trucks1 = trucks.copy() + [[str(cam) + " --> " + str((node1, node2))]] #on ajoute le trajet étudié à la liste
             rec = self.rec_knapsack(B-cost, routes, trucks1, n-1)
             val1, trucks1 = utility + rec[0], rec[1]
             val2, trucks2 = self.rec_knapsack(B, routes, trucks, n-1)
             if val1 > val2 :
                 return val1, trucks1
-            else : return val2, trucks2
+            else :
+                return val2, trucks2
         
 
     def naive_knapsack(self, num_file, B = 5*(10**9)) :
+        """fonction qui initialise la récursion ci-dessus
+        Args : 
+                num_file (int) : num d'un fichier routes et de son network associé
+                B (float) : le budget, fixé
+        Output :
+                val1 ou val2 : l'utilité totale obtenue avec la collection de camions optimale, affichée afin de pouvoir la comparer avec celle obtenu par approximation locale (greedy)
+                trucks (liste de listes) : la collection de camions à acheter ainsi que les trajets auxquels les affecter (chaque sous-liste est du type [camion --> (sommet1, sommet2)]) """
         routes = self.min_cost(num_file)
         trucks = []
         return self.rec_knapsack(B, routes, trucks, len(routes))
@@ -97,8 +117,10 @@ class Catalogue :
 
 def catalogue_from_file(filename) : 
     """Completer le dictionnaire avec le fichier
-    Args:
-        filename (str): nom du fichier trucks
+    Args :
+            filename (str): nom du fichier trucks
+    Output : 
+            c (class Catalogue) : le catalogue obtenu à partir du fichier, sous la forme d'une liste de camions et d'un dictionnaire qui associe son coût à chaque camion
     """
     with open(filename, "r") as file :
         n = int(file.readline())
