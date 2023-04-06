@@ -22,8 +22,7 @@ class Catalogue :
         Output : g.edges : une liste de listes ou chaque sous-liste est du type : [sommet1, sommet2, puissance minimale, utilité, camion optimal, coût du camion optimal]
         """
         f = graph_from_file_route("input/routes."+str(num_file)+".in")
-        K = Kruskal(f) #on utilise un arbre couvrant
-        g = add_power(K[0], num_file)
+        g = add_power(num_file)
         for i in range(len(g.edges)) : 
             power = g.edges[i][2]
             min_cost = inf
@@ -133,7 +132,7 @@ def catalogue_from_file(filename) :
     return c
 
 
-f = catalogue_from_file("input/trucks.1.in")
-print(f.naive_knapsack(1))
+f = catalogue_from_file("input/trucks.2.in")
 print(f.greedy(1))
+#print(f.naive_knapsack(1))
 #on constate que les 2 algos donnent le même résultat

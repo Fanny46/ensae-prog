@@ -281,15 +281,14 @@ def graph_from_file_route(filename):
 
 
 
-def add_power(h, num_file): #complexité en O(E²)
+def add_power(num_file): #complexité en O(E²)
     """
     Should return a graph in which each edge is composed of 4 values : node1, node2, the minimal power of the route, its utility
     Args :
-            h : a graph from a route file (with or without Kruskal)
-            num_file : the num of the network file that will be associated to the graph h
+            num_file : the num of the network file and the route file that will be associated
     Output : a graph
     """
-    #h = graph_from_file_route("input/routes."+str(num_file)+".in")
+    h = graph_from_file_route("input/routes."+str(num_file)+".in")
     g = graph_from_file("input/network."+str(num_file)+".in")
     for g_edge in g.edges:
         node1, node2, power_min = g_edge

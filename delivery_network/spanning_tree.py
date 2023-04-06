@@ -1,4 +1,4 @@
-from graph import Graph, graph_from_file_route, graph_from_file
+from graph import Graph, graph_from_file_route, graph_from_file, add_power
 from random import choice
 
 #******************** Question 12 ********************
