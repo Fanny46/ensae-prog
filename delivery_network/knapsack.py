@@ -34,7 +34,7 @@ class Catalogue :
             g.edges[i] += [min_cam, min_cost] #on ajoute à l'arête le camion dont le coût est minimal ainsi que ce coût
         return g.edges
 
-    def greedy(self, num_file, B=25*(10**9)) : #complexité en O(E*nb_trucks) à cause de l'appel de min_cost
+    def greedy(self, num_file, B=25*(10**9)) : #complexité en O(E*nb_trucks)
         """ Fonction qui détermine la collection de camions à acheter ainsi que le trajet auquel chaque camion est affecté.
             On demande aussi à l'algo de print le coût total et l'utilité totale des camions achetés.
             On implémente un algorithme glouton.
@@ -69,7 +69,7 @@ class Catalogue :
         return trucks
         
 
-    def rec_knapsack(self, B, routes, trucks, n) :
+    def rec_knapsack(self, B, routes, trucks, n) : #complexité en O(2^E), E le nombre de trajets
         """ fonction auxiliaire de naive_knapsack, récursive afin d'explorer toutes les combinaisons de trajets possibles.
             La fonction teste pour chaque route si le sac-à-dos obtenu en la choisissant apporte plus d'utilité que celui obtenu en ne la choisissant pas
             Ainsi, on teste tous les sac-à-dos possibles en les comparant 2 à 2 et en gardant toujours le meilleur des 2 (tout en vérifiant à chaque fois si le budget n'est pas dépassé)
@@ -132,7 +132,7 @@ def catalogue_from_file(filename) :
     return c
 
 
-f = catalogue_from_file("input/trucks.2.in")
-print(f.greedy(1))
+f = catalogue_from_file("input/trucks.0.in")
+print(f.greedy(2))
 #print(f.naive_knapsack(1))
 #on constate que les 2 algos donnent le même résultat

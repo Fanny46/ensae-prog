@@ -29,9 +29,8 @@ for n in range (1,10) :
     print("Pour exécuter graph_from_file_route de", file_name, "il faut : ", time1/60, "minutes.")
     print("Pour construire un arbre couvrant de", file_name, "il faut : ", time2/60, "minutes.")
 
-"""Pour exécuter graph_from_file_route de routes.1.in il faut :  0.0 minutes.
-Pour construire un arbre couvrant de routes.1.in il faut :  3.388749125103156e-06 minutes.
-Pour exécuter graph_from_file_route de routes.2.in il faut :  0.0 minutes.
-Pour construire un arbre couvrant de routes.2.in il faut :  1.2575840330993135 minutes.
-Pour exécuter graph_from_file_route de routes.3.in il faut :  0.0 minutes.
-Pour construire un arbre couvrant de routes.3.in il faut :  2.0910675054163828 minutes."""
+"""Pour exécuter graph_from_file_route de routes.1.in il faut :  4.763381245235602e-06 minutes.
+Pour construire un arbre couvrant de routes.1.in il faut :  2.5162473320961e-06 minutes.
+Pour exécuter graph_from_file_route de routes.2.in il faut :  0.934399318198363 minutes.
+Pour construire un arbre couvrant de routes.2.in il faut :  1.3269289190725735 minutes.
+"""

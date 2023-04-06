@@ -118,7 +118,7 @@ class Graph:
         return "path : " + str(path) + ", distance : " + str(distance[dest])
 
 
-       #************** Question 3  #complexité en O(V+E) ***************
+       #************** Question 3  #complexité en O(degré*profondeur) ***************
     def aux_parcours(self, node, path, src, dest, nodes_v, power) :
         if node == dest:
             return path
@@ -141,7 +141,7 @@ class Graph:
         Args:
             src (int): point de départ
             dest (int): point d'arrivée
-            power (int): puissance maximale a ne pas dépasser
+            power (int): puissance maximale à ne pas dépasser
         Returns:
             Retourne une liste qui correspond au chemin.
         """

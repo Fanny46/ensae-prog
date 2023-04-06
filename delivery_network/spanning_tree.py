@@ -61,7 +61,7 @@ def Kruskal(G) : # prend un graph G en entrée. Complexité en O(Elog(E))
 
 
 #******************** Question 14 ******************** 
-# Complexité en O(V)
+# Complexité en O(V*E)
 def aux_parcours(S, node, path, src, dest, nodes_v, powers) :
     """fonction auxiliaire de path_spanning_tree qui renvoie le chemin allant d'une source à une destination et la puissance minimale pour couvrir le trajet
     """
@@ -113,6 +113,7 @@ def aux_depth(S, node, depth_node, parent, depth) : # complexité en O(V + E)
     return parent, depth
 
 #l'initialisation, en comptant Kruskal, a une complexité en O(Elog(E))
+
 
 def path_spanning_tree2 (X, src, dest) : # complexité sans tenir compte de l'initialisation : O(V)
     """Should return power_min, path"""
